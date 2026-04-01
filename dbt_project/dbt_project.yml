@@ -1,0 +1,40 @@
+name: 'uk_real_estate'
+version: '1.0.0'
+config-version: 2
+
+# This setting configures which "profile" dbt uses for this project.
+# The profile details our Snowflake credentials.
+profile: 'uk_real_estate'
+
+# These paths define where dbt looks for different types of files
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+# Defining variables that can be used globally in SQL models
+vars:
+  # The default year to process for incremental models testing
+  current_year: 2024
+
+# Configuring models
+# Staging models will be created as "views" so they don't consume extra storage
+# Mart models will be created as "tables" because they are queried heavily by analysts
+models:
+  uk_real_estate:
+    staging:
+      +materialized: view
+      +schema: STG
+    marts:
+      +materialized: table
+      +schema: MARTS
+
+snapshots:
+  uk_real_estate:
+    +target_schema: MARTS

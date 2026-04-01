@@ -1,0 +1,44 @@
+version: 2
+
+sources:
+  - name: uk_real_estate_bronze
+    database: UK_REAL_ESTATE
+    schema: BRONZE
+    tables:
+      # These MUST match the table names created by our ingestion pipeline
+      # in the Snowflake setup scripts (04_stages.sql)
+      - name: land_registry_raw
+        description: "Raw HM Land Registry Price Paid Data, ingested via Python"
+      - name: boe_rates_raw
+        description: "Historical Bank of England base rates"
+      - name: ons_demographics_raw
+        description: "Regional housing indices and population data from ONS Beta API"
+
+models:
+  - name: stg_land_registry
+    description: "Cleaned Land Registry data with normalized types and handling for street names"
+    columns:
+      - name: transaction_sk
+        description: "Surrogate key for the property transaction"
+        tests:
+          - unique
+          - not_null
+      - name: price_paid
+        description: "The price paid for the property"
+        tests:
+          - not_null
+      - name: date_of_transfer
+        description: "When the property transaction completed"
+        tests:
+          - not_null
+
+  - name: stg_boe_rates
+    description: "Daily Bank of England base interest rates"
+    columns:
+      - name: rate_date
+        tests:
+          - unique
+          - not_null
+      - name: rate_value_percent
+        tests:
+          - not_null

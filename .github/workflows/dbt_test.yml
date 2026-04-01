@@ -1,0 +1,32 @@
+name: dbt CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  dbt_compile:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        
+    - name: Install dependencies
+      run: |
+        pip install dbt-snowflake
+        
+    - name: Compile dbt project
+      working-directory: dbt_project
+      run: |
+        dbt compile
+      env:
+        # These are dummy variables for compilation checks in CI
+        SNOWFLAKE_ACCOUNT: dummy
+        SNOWFLAKE_USER: dummy
+        SNOWFLAKE_PASSWORD: dummy

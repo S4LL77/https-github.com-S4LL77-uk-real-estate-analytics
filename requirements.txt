@@ -1,0 +1,30 @@
+# Core ingestion
+pandas>=2.1.0
+pyarrow>=14.0.0
+requests>=2.31.0
+python-dotenv>=1.0.0
+
+# AWS
+boto3>=1.34.0
+
+# API & Visualization (Phase 4 & 6)
+fastapi>=0.110.0
+uvicorn>=0.27.0
+snowflake-connector-python>=3.7.0
+streamlit>=1.32.0
+plotly>=5.18.0
+
+# Orchestration (Phase 2)
+# apache-airflow>=2.8.0  # Install separately in Docker
+
+# dbt (Phase 3)
+dbt-snowflake>=1.7.0
+
+# Quality (Phase 6)
+# great-expectations>=0.18.0
+
+# Dev tools
+pytest>=7.4.0
+pytest-cov>=4.1.0
+ruff>=0.4.0
+black>=24.0.0

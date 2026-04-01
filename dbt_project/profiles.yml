@@ -1,0 +1,23 @@
+uk_real_estate:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      # Account identifier (e.g., xy12345.eu-west-2.aws)
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') }}"
+      
+      # User credentials
+      user: "{{ env_var('SNOWFLAKE_USER') }}"
+      password: "{{ env_var('SNOWFLAKE_PASSWORD') }}"
+      
+      # Role configuration (Using ACCOUNTADMIN to bypass Free Trial permission errors)
+      role: ACCOUNTADMIN
+      
+      # Database and schema mappings
+      database: UK_REAL_ESTATE
+      warehouse: TRANSFORM_WH
+      schema: STG
+      
+      # Standard timeout/retry configurations
+      threads: 4
+      client_session_keep_alive: False
