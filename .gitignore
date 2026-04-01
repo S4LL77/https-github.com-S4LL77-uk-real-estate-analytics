@@ -59,3 +59,6 @@ tests/great_expectations/uncommitted/
 # Coverage
 .coverage
 htmlcov/
+
+# Private Interview Guide (Keep local only)
+PRESENTATION_GUIDE.md

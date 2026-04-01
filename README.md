@@ -1,16 +1,5 @@
 # 🏠 UK Real Estate Market Analytics
 
-> [!TIP]
-> 📖 **[Recruiter & Tech Lead: How to View/Run this Project?](PRESENTATION_GUIDE.md)**
-
-## 📸 Visual Showcase
-
-| Interactive Dashboard | Data Lineage (dbt) | API Documentation |
-|:---:|:---:|:---:|
-| ![Dashboard](assets/dashboard.png) | ![Lineage](assets/lineage.png) | ![API](assets/api.png) |
-
----
-
 > End-to-end data engineering pipeline for UK property market intelligence — from raw government data to executive dashboards.
 
 ![Python](https://img.shields.io/badge/Python-3.10+-3776ab?style=flat-square&logo=python&logoColor=white)
@@ -287,17 +276,6 @@ All architectural decisions are documented in [DECISIONS.md](DECISIONS.md) using
 3. **Medallion over Data Vault** (simpler for this scope, but aware of Data Vault 2.0)
 4. **dbt Core over Cloud** (cost, CI/CD control, portability)
 5. **Star schema with SCD-2** (balances query performance with history tracking)
-
-## 📈 Interview Talking Points
-
-This project is designed to facilitate deep technical conversations about:
-
-- **Medallion Architecture**: Bronze → Silver → Gold with clear quality gates
-- **Incremental Loading**: Watermark columns + MERGE strategy for efficiency
-- **SCD Type 2**: Temporal history with `valid_from`/`valid_to` date ranges
-- **Cost Optimisation**: WH auto-suspend, clustering keys, result caching
-- **Data Contracts**: Schema validation enforced at bronze and silver boundaries
-- **GDPR/Data Governance**: Dynamic masking, RBAC, and audit logging
 
 ## 📄 License
 
