@@ -1,6 +1,6 @@
 # Architectural Decision Records (ADR)
 
-This document records key architectural decisions for the UK Real Estate Analytics pipeline. Each entry explains the context, decision, and trade-offs — the kind of reasoning that matters in technical interviews.
+This document records key architectural decisions for the UK Real Estate Analytics pipeline. Each entry explains the context, decision, and trade-offs.
 
 ---
 
@@ -31,9 +31,6 @@ Store ingested data as **Parquet** (not CSV) in the bronze layer, even though th
 - **Con:** Not human-readable (can't `head file.parquet` in terminal)
 - **Con:** Requires pyarrow dependency
 
-### Interview talking point
-> "We chose Parquet even at the bronze layer because the storage cost savings at 28M rows are significant, and having the schema embedded in the file prevents a whole class of parsing bugs. The trade-off is lost human readability, but that's what data catalogues are for."
-
 ---
 
 ## ADR-002: No Rightmove Scraping
@@ -58,9 +55,6 @@ Rightmove is the UK's largest property listing platform. Their data would enrich
 - **Pro:** Land Registry provides *actual* sale prices, not asking prices
 - **Con:** Missing listing-level features (descriptions, images, time on market)
 - **Con:** No current "for sale" inventory data
-
-### Interview talking point
-> "I deliberately excluded Rightmove because their ToS prohibit scraping, and I think it's important to demonstrate that I take data ethics seriously. The Land Registry actually gives us transaction prices, which are more reliable than asking prices for analytics."
 
 ---
 
@@ -89,9 +83,6 @@ Use **Medallion Architecture** for the data lake, with a **Star Schema** in the 
 - **Pro:** Star schema is immediately consumable by BI tools
 - **Con:** Less resilient to source schema changes than Data Vault
 - **Con:** Updates require merge logic vs. insert-only
-
-### Interview talking point
-> "I chose Medallion with Star Schema because it's the right tool for this scope — 3 sources, clear business entities. But I'm aware that for enterprise-scale with 50+ sources and frequent schema changes, Data Vault 2.0's insert-only pattern and hash-based keys would provide better agility. It's about matching architecture to requirements."
 
 ---
 
@@ -204,6 +195,3 @@ Apply Snowflake **Dynamic Data Masking** policies to address fields (PAON, SAON,
 - `ANALYST` role sees `***MASKED***`
 - All other roles see `***REDACTED***`
 - Masking policies are version-controlled and deployed via Terraform/CI
-
-### Interview talking point
-> "I applied GDPR masking even though Land Registry data is 'open data' because it demonstrates awareness of UK data protection principles. In a production environment, combining addresses with other datasets could create PII, so masking by default follows the principle of data minimisation."

@@ -10,12 +10,6 @@
 --             ├── DATA_GOVERNANCE   — PII access for compliance audits
 --             ├── TRANSFORMER       — dbt service account role
 --             └── ANALYST           — Read-only, PII masked
---
--- Interview talking point:
---   "We separate DATA_ENGINEER from ANALYST roles so that the
---    masking policies in script 05 can differentiate access levels.
---    The TRANSFORMER role is used by dbt's service account — it
---    needs write access to staging/marts but not to raw bronze data."
 -- ============================================================================
 
 USE ROLE SECURITYADMIN;

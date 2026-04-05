@@ -6,12 +6,6 @@
 --   - Aggressive auto-suspend (60-120s) to minimise credit burn
 --   - Auto-resume for seamless user experience
 --   - X-SMALL default — Snowflake free trial has limited credits
---
--- Interview talking point:
---   "We use workload-isolated warehouses so that a heavy dbt run
---    doesn't block analyst queries. Each warehouse auto-suspends
---    after 60 seconds of inactivity, which on our trial account
---    saved about 70% of compute cost vs. a single always-on warehouse."
 -- ============================================================================
 
 USE ROLE SYSADMIN;
