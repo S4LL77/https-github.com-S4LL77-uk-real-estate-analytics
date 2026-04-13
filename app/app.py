@@ -1,11 +1,18 @@
 import os
+import sys
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-from api.database import execute_query
 from dotenv import load_dotenv
 
-# Load environment variables
+# Ensure the root directory is in sys.path for Streamlit Cloud
+root_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+if root_path not in sys.path:
+    sys.path.append(root_path)
+
+from api.database import execute_query
+
+# Load environment variables (for local dev)
 load_dotenv()
 
 # Page configuration

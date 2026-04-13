@@ -8,26 +8,36 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+def get_config(key: str, default: str = None) -> str:
+    """Helper to get config from st.secrets (Cloud) or os.getenv (Local)"""
+    try:
+        import streamlit as st
+        if hasattr(st, "secrets") and key in st.secrets:
+            return st.secrets[key]
+    except Exception:
+        pass
+    return os.getenv(key, default)
+
 def get_snowflake_connection() -> SnowflakeConnection:
     """
     Establish a connection to the Snowflake Data Warehouse.
     Uses the Analyst role to ensure least-privilege security.
     """
-    account = os.getenv("SNOWFLAKE_ACCOUNT")
-    user = os.getenv("SNOWFLAKE_USER")
-    password = os.getenv("SNOWFLAKE_PASSWORD")
+    account = get_config("SNOWFLAKE_ACCOUNT")
+    user = get_config("SNOWFLAKE_USER")
+    password = get_config("SNOWFLAKE_PASSWORD")
 
     if not all([account, user, password]):
-        raise ValueError("Missing Snowflake credentials in environment variables.")
+        raise ValueError("Missing Snowflake credentials. Add them to .env (local) or Streamlit Secrets (cloud).")
 
     conn = snowflake.connector.connect(
         account=account,
         user=user,
         password=password,
-        role="ACCOUNTADMIN",      # Bypassing trial RBAC limitations to ensure API has access to dbt tables
-        warehouse="TRANSFORM_WH", # Default trial compute warehouse created earlier
-        database="UK_REAL_ESTATE",
-        schema="STG_MARTS"
+        role=get_config("SNOWFLAKE_ROLE", "ACCOUNTADMIN"),
+        warehouse=get_config("SNOWFLAKE_WAREHOUSE", "TRANSFORM_WH"),
+        database=get_config("SNOWFLAKE_DATABASE", "UK_REAL_ESTATE"),
+        schema=get_config("SNOWFLAKE_SCHEMA", "STG_MARTS")
     )
     
     return conn
