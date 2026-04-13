@@ -87,8 +87,7 @@ def fetch_analytics_data(county):
         l.town_city,
         p.property_type,
         t.price_paid,
-        t.date_of_transfer,
-        t.boe_rate_at_sale_decimal
+        t.date_of_transfer
     FROM STG_MARTS.fct_transactions t
     JOIN STG_MARTS.dim_location l ON t.location_sk = l.location_sk
     JOIN MARTS.dim_property_scd2 p ON t.property_nk = p.property_nk
@@ -107,17 +106,15 @@ if df.empty:
     st.warning("No data found for the selected region. Please try another county.")
 else:
     # --- KPI METRICS ---
-    m1, m2, m3, m4 = st.columns(4)
+    m1, m2, m3 = st.columns(3)
     
     avg_price = df['price_paid'].median()
     total_vol = len(df)
     max_price = df['price_paid'].max()
-    interest_rate = df['boe_rate_at_sale_decimal'].mean() * 100
     
     m1.metric("Median Property Price", f"£{int(avg_price):,}", "+2.4% vs prev.")
     m2.metric("Transaction Volume", f"{total_vol:,}", "Real-time")
     m3.metric("Peak Sale Value", f"£{int(max_price):,}", "Historical High")
-    m4.metric("Avg. Interest Rate", f"{interest_rate:.2f}%", "-0.1% vs Q3")
 
     st.divider()
 
