@@ -84,7 +84,7 @@ def fetch_analytics_data(county):
     query = f"""
     SELECT 
         l.county,
-        l.city,
+        l.town_city,
         p.property_type,
         t.price_paid,
         t.date_of_transfer,
@@ -160,17 +160,17 @@ else:
 
     # --- REGIONAL ANALYSIS ---
     st.divider()
-    st.subheader("📍 Regional Performance (Top Cities)")
+    st.subheader("📍 Regional Performance (Top Towns/Cities)")
     
-    city_perf = df.groupby('city').agg({
+    city_perf = df.groupby('town_city').agg({
         'price_paid': ['median', 'count']
     }).reset_index()
-    city_perf.columns = ['City', 'Median Price', 'Vol']
+    city_perf.columns = ['Town/City', 'Median Price', 'Vol']
     city_perf = city_perf.sort_values('Median Price', ascending=False).head(10)
 
     fig_bar = px.bar(
         city_perf,
-        x='City',
+        x='Town/City',
         y='Median Price',
         color='Median Price',
         title="Top 10 Cities by Median Price",
@@ -183,7 +183,7 @@ else:
     # --- RAW DATA ---
     with st.expander("🔍 Inspect Underlying Micro-data"):
         st.dataframe(
-            df[['date_of_transfer', 'city', 'county', 'property_type', 'price_paid']].head(500),
+            df[['date_of_transfer', 'town_city', 'county', 'property_type', 'price_paid']].head(500),
             use_container_width=True,
             hide_index=True
         )
