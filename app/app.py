@@ -93,6 +93,7 @@ def fetch_analytics_data(county):
     JOIN STG_MARTS.dim_location l ON t.location_sk = l.location_sk
     JOIN MARTS.dim_property_scd2 p ON t.property_nk = p.property_nk
     {where_clause}
+    LIMIT 200000
     """
     res = execute_query(query, tuple(params) if params else None)
     return pd.DataFrame(res)
