@@ -191,12 +191,12 @@ python -m pytest tests/ -v
 
 ### Visualization & Documentation (Phase 6)
 
-#### 📊 Interactive Dashboard (Streamlit)
-To see the processed data in action with charts and KPIs, run:
+#### 📊 Professional Analytics Dashboard (Streamlit)
+To visualize processed data with premium metrics, charts, and regional analysis:
 ```bash
-python -m streamlit run dashboard.py
+python -m streamlit run app/app.py
 ```
-This connects live to Snowflake and visualizes market trends, median prices, and transaction volumes.
+This modern dashboard connects live to Snowflake, offering insights into median prices, market sentiment, and transactional volume trends across the UK.
 
 #### 🗺️ Data Lineage (dbt Docs)
 To view the "Map of the Mine" (how your data flows from raw to gold), run:
